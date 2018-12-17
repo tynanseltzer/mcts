@@ -15,7 +15,7 @@ class MCTS(object):
         self.default_policy = default_policy
         self.backup = backup
 
-    def __call__(self, root, n=1500):
+    def __call__(self, root, teamIsBlue, n=1500):
         """
         Run the monte carlo tree search.
 
@@ -28,7 +28,10 @@ class MCTS(object):
 
         for _ in range(n):
             node = _get_next_node(root, self.tree_policy)
-            node.reward = self.default_policy(node)
+            if teamIsBlue:
+                node.reward = self.default_policy(node)
+            else:
+                node.reward = -1 * self.default_policy(node)
             self.backup(node)
 
         return utils.rand_max(root.children.values(), key=lambda x: x.q).action
