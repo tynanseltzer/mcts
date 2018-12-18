@@ -55,4 +55,5 @@ def _roll_out(state_node, stopping_criterion):
         parent = state
         state = parent.perform(action)
 
+    reward += state.reward(parent, action)
     return reward
